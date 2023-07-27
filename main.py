@@ -10,9 +10,10 @@ TWITTER_PASSWORD = os.environ.get("password")
 class InternetSpeedTwitterBot():
     def __init__(self):
         self.chrome_options = webdriver.ChromeOptions()
+        self.chrome_options.add_argument("--headless=True")
         self.chrome_options.add_experimental_option("detach", True)
         self.chrome_web_driver = Service(r"C:\Users\green\Downloads\chromedriver_win32\chromedriver.exe")
-        self.driver = webdriver.Chrome(service=self.chrome_web_driver)
+        self.driver = webdriver.Chrome(service=self.chrome_web_driver, options=self.chrome_options)
         self.driver.maximize_window()
         self.PROMISED_DOWN = 100
         self.PROMISED_UP = 10
@@ -27,9 +28,9 @@ class InternetSpeedTwitterBot():
         start_button.click()
         time.sleep(50)
         self.downloadspeed = self.driver.find_element(By.XPATH, value='//*[@id="container"]/div/div[3]/div/div/div/div[2]/div[3]/div[3]/div/div[3]/div/div/div[2]/div[1]/div[1]/div/div[2]/span')
-        self.downloadspeed = self.downloadspeed.text
+        self.downloadspeed = float(self.downloadspeed.text)
         self.upload_speed = self.driver.find_element(By.XPATH, value='//*[@id="container"]/div/div[3]/div/div/div/div[2]/div[3]/div[3]/div/div[3]/div/div/div[2]/div[1]/div[2]/div/div[2]/span')
-        self.upload_speed = self.upload_speed.text
+        self.upload_speed = float(self.upload_speed.text)
         print(self.upload_speed)
         print(self.downloadspeed)
     def tweet_at_provider(self):
